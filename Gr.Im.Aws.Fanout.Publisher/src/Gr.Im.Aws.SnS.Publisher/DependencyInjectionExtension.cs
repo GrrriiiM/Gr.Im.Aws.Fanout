@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
-using Gr.Im.Aws.Sns.Fanout.Publisher;
+using Gr.Im.Aws.Fanout.Publisher;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

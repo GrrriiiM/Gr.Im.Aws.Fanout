@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Amazon.SimpleNotificationService;
 using Amazon.SimpleNotificationService.Model;
 
-namespace Gr.Im.Aws.Sns.Fanout.Publisher
+namespace Gr.Im.Aws.Fanout.Publisher
 {
     public class Publisher<TMessage> where TMessage : class
     {

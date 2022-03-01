@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using Amazon.SimpleNotificationService;
-using Gr.Im.Aws.Sns.Fanout.Publisher;
+using Gr.Im.Aws.Fanout.Publisher;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 
-namespace Gr.Im.Aws.Sns.Fanout.Publisher
+namespace Gr.Im.Aws.Fanout.Publisher
 {
     public class MessageConfiguration<TMessage> where TMessage : class
     {

@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace Gr.Im.Aws.Sns.Fanout.Publisher
+namespace Gr.Im.Aws.Fanout.Publisher
 {
     public class TopicConfiguration
     {
