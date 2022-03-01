@@ -12,7 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Gr.Im.Aws.Fanout.Publisher\src\Gr.Im.Aws.SnS.Publisher\Gr.Im.Aws.SnS.Publisher.csproj" />
+    <ProjectReference Include="..\..\..\Gr.Im.Aws.Fanout.Publisher\src\Gr.Im.Aws.Fanout.Publisher\Gr.Im.Aws.Fanout.Publisher.csproj" />
+    <ProjectReference Include="..\..\..\Gr.Im.Aws.Fanout.Subscriber\src\Gr.Im.Aws.Fanout.Subscriber\Gr.Im.Aws.Fanout.Subscriber.csproj" />
   </ItemGroup>
 
 </Project>

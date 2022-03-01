@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples", "Examples\Examples.csproj", "{8A52AC4A-DD49-4498-99B0-1611229ADB3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gr.Im.Aws.SnS.Publisher", "..\..\Gr.Im.Aws.Fanout.Publisher\src\Gr.Im.Aws.SnS.Publisher\Gr.Im.Aws.SnS.Publisher.csproj", "{8BCAAB68-C7D6-4D88-B4BF-2E53E75320A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gr.Im.Aws.Fanout.Publisher", "..\..\Gr.Im.Aws.Fanout.Publisher\src\Gr.Im.Aws.Fanout.Publisher\Gr.Im.Aws.Fanout.Publisher.csproj", "{8BCAAB68-C7D6-4D88-B4BF-2E53E75320A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gr.Im.Aws.Fanout.Subscriber", "..\..\Gr.Im.Aws.Fanout.Subscriber\src\Gr.Im.Aws.Fanout.Subscriber\Gr.Im.Aws.Fanout.Subscriber.csproj", "{CB468E32-95AA-49D1-BCE6-91A501D2297F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,5 +46,17 @@ Global
 		{8BCAAB68-C7D6-4D88-B4BF-2E53E75320A7}.Release|x64.Build.0 = Release|Any CPU
 		{8BCAAB68-C7D6-4D88-B4BF-2E53E75320A7}.Release|x86.ActiveCfg = Release|Any CPU
 		{8BCAAB68-C7D6-4D88-B4BF-2E53E75320A7}.Release|x86.Build.0 = Release|Any CPU
+		{CB468E32-95AA-49D1-BCE6-91A501D2297F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB468E32-95AA-49D1-BCE6-91A501D2297F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB468E32-95AA-49D1-BCE6-91A501D2297F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CB468E32-95AA-49D1-BCE6-91A501D2297F}.Debug|x64.Build.0 = Debug|Any CPU
+		{CB468E32-95AA-49D1-BCE6-91A501D2297F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CB468E32-95AA-49D1-BCE6-91A501D2297F}.Debug|x86.Build.0 = Debug|Any CPU
+		{CB468E32-95AA-49D1-BCE6-91A501D2297F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB468E32-95AA-49D1-BCE6-91A501D2297F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB468E32-95AA-49D1-BCE6-91A501D2297F}.Release|x64.ActiveCfg = Release|Any CPU
+		{CB468E32-95AA-49D1-BCE6-91A501D2297F}.Release|x64.Build.0 = Release|Any CPU
+		{CB468E32-95AA-49D1-BCE6-91A501D2297F}.Release|x86.ActiveCfg = Release|Any CPU
+		{CB468E32-95AA-49D1-BCE6-91A501D2297F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

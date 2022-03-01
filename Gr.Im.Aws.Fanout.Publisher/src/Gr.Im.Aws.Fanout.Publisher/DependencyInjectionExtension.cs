@@ -9,7 +9,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class DependencyInjectionExtension
     {
-        public static IServiceCollection AddAwsPublisherTopic(this IServiceCollection services, Action<AddAwsPublisherConfig> config = null)
+        public static IServiceCollection AddAwsFanoutPublisher(this IServiceCollection services, Action<AddAwsPublisherConfig> config = null)
         {
             var _config = new AddAwsPublisherConfig(services);
             config?.Invoke(_config);
