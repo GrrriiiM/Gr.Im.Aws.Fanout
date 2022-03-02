@@ -19,7 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 
 
-                var configurationRoot  = _.GetRequiredService<IConfigurationRoot>();
+                var configurationRoot  = _.GetRequiredService<IConfiguration>();
 
                 return new SubscriberConfiguration(
                     configurationRoot.GetSection("AWS:SQS:QueueUrl").Value,
@@ -30,6 +30,12 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddScoped<Subscriber>();
             
+            return services;
+        }
+
+        public static IServiceCollection AddAwsFanoutSubscriberWorker(this IServiceCollection services)
+        {
+            services.AddHostedService<SubscriberBackgroundService>();
             return services;
         }
 

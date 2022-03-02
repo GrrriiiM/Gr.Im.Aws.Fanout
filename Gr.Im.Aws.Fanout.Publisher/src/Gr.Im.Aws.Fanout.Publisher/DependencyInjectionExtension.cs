@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using Gr.Im.Aws.Fanout.Publisher;
 using Microsoft.Extensions.Configuration;
@@ -16,13 +17,17 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddSingleton<TopicConfiguration>(_ => 
             {
-                var configurationRoot  = _.GetRequiredService<IConfigurationRoot>();
+                var configurationRoot  = _.GetRequiredService<IConfiguration>();
 
                 return new TopicConfiguration(
                     configurationRoot.GetSection("AWS:SNS:TopicArn").Value,
-                    _config.jsonSerializerOptions
+                    _config.jsonSerializerOptions,
+                    _config.messages.ToDictionary(m => m.MessageType.Name, m => m)
                 );
             });
+
+            services.AddScoped<Publisher>();
+
             return services;
         }
 
@@ -43,26 +48,19 @@ namespace Microsoft.Extensions.DependencyInjection
                 return this;
             }
 
+            internal List<MessageConfiguration> messages = new List<MessageConfiguration>(); 
             public AddAwsPublisherConfig AddMessage<TMessage>(Action<AddAwsPublisherMessageConfig<TMessage>> config = null) where TMessage : class
             {
+                var _config = new AddAwsPublisherMessageConfig<TMessage>();
+                config?.Invoke(_config);
 
-                _services.AddSingleton<MessageConfiguration<TMessage>>(sp =>
-                {
-                    var topicConfiguration = sp.GetRequiredService<TopicConfiguration>();
-
-                    var c = new AddAwsPublisherMessageConfig<TMessage>();
-                    config?.Invoke(c);
-
-                    return new MessageConfiguration<TMessage>(
-                        c.messageName,
-                        c.jsonSerializerOptions ?? topicConfiguration.JsonSerializerOptions,
-                        c.groupId,
-                        topicConfiguration,
-                        c.attributes
-                    );
-                });
-
-                _services.AddScoped<Publisher<TMessage>>();
+                messages.Add(new MessageConfiguration(
+                    _config.messageType,
+                    _config.messageName,
+                    _config.jsonSerializerOptions,
+                    _config.groupId,
+                    _config.attributes
+                ));
 
                 return this;
             }
@@ -70,10 +68,17 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public class AddAwsPublisherMessageConfig<TMessage>
         {
-            internal Func<TMessage, string> messageName;
+            internal Type messageType;
+
+            public AddAwsPublisherMessageConfig()
+            {
+                messageType = typeof(TMessage);
+            }
+
+            internal Func<object, string> messageName;
             public AddAwsPublisherMessageConfig<TMessage> MessageName(Func<TMessage, string> messageName)
             {
-                this.messageName = messageName;
+                this.messageName = _ => messageName((TMessage)_);
                 return this;
             }
 
@@ -91,17 +96,17 @@ namespace Microsoft.Extensions.DependencyInjection
                 return this;
             }
             
-            internal Func<TMessage, string> groupId;
+            internal Func<object, string> groupId;
             public AddAwsPublisherMessageConfig<TMessage> GroupId(Func<TMessage, string> groupId)
             {
-                this.groupId = groupId;
+                this.groupId = _ => groupId((TMessage)_);
                 return this;
             }
 
-            internal Dictionary<string, Func<TMessage, string>> attributes = new Dictionary<string, Func<TMessage, string>>();
+            internal Dictionary<string, Func<object, string>> attributes = new Dictionary<string, Func<object, string>>();
             public AddAwsPublisherMessageConfig<TMessage> AddAttribute(string key, Func<TMessage, string> value)
             {
-                this.attributes.Add(key, value);
+                this.attributes.Add(key, _ => value((TMessage)_));
                 return this;
             }
         }

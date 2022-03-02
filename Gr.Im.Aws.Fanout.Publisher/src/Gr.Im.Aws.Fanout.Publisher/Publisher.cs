@@ -7,38 +7,43 @@ using Amazon.SimpleNotificationService.Model;
 
 namespace Gr.Im.Aws.Fanout.Publisher
 {
-    public class Publisher<TMessage> where TMessage : class
+    public class Publisher
     {
         readonly IAmazonSimpleNotificationService _sns;
-        readonly MessageConfiguration<TMessage> _configuration;
+        readonly TopicConfiguration _configuration;
 
-        public Publisher(IAmazonSimpleNotificationService sns, MessageConfiguration<TMessage> configuration)
+        public Publisher(IAmazonSimpleNotificationService sns, TopicConfiguration configuration)
         {
             _sns = sns;
             _configuration = configuration;
         }
 
-        public async Task SendAsync(TMessage message, CancellationToken cancellationToken = default)
+        public async Task SendAsync<TMessage>(TMessage message, CancellationToken cancellationToken = default)
         {
+            var messageTypeName = typeof(TMessage).Name;
+            if (!_configuration.Messages.ContainsKey(messageTypeName))
+                throw new ArgumentException($"Mensagem do tipo {messageTypeName} não configurada");
+
+            var messageConfiguration = _configuration.Messages[messageTypeName];
 
             var messageJson = JsonSerializer.Serialize(message, _configuration.JsonSerializerOptions);
 
             var request = new PublishRequest
             {
-                TopicArn = _configuration.Topic.Arn,
+                TopicArn = _configuration.Arn,
                 Message = messageJson
             };
 
-            var messageName = _configuration.MessageName?.Invoke(message) ?? message.GetType().Name;
+            var messageName = messageConfiguration.MessageName?.Invoke(message) ?? messageTypeName;
 
             request.MessageAttributes.Add("message-name", new MessageAttributeValue
             {
                 StringValue = messageName
             });
 
-            if (_configuration.GroupId != null) request.MessageGroupId = $"{messageName}:{_configuration.GroupId(message)}";
+            if (messageConfiguration.GroupId != null) request.MessageGroupId = $"{messageName}:{messageConfiguration.GroupId(message)}";
 
-            foreach(var messageAttribute in _configuration.Attributes)
+            foreach(var messageAttribute in messageConfiguration.Attributes)
             {
                 request.MessageAttributes.Add(messageAttribute.Key, new MessageAttributeValue 
                 {
